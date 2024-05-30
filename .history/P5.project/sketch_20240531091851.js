@@ -75,6 +75,12 @@ function drawDuelCircle(x, y, radius, delta) {
   ellipse(x, y, radius - delta, radius - delta);
 }
 
+function drawCross(x, y, horizontalLength, verticalLength, lineWidth) {
+  strokeWeight(lineWidth);
+  stroke('#ffffff');
+  line(x, y - verticalLength / 2, x, y + verticalLength / 2);
+  line(x - horizontalLength / 2, y, x + horizontalLength / 2, y);
+}
 
 function drawSpecialCircle(x, y, outerRadius, innerRadius) {
   fill(75, 156, 211);

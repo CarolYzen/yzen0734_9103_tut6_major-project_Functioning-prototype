@@ -6,9 +6,9 @@ let largeCircleColors = [];
 let smallCircleColors = [];
 let randomCircles = [];
 let patterns = [];
-let angle = 0;
+let angle = 0; 
 let centralCircleRadius = 70;
-let growthFactor = 1;
+let growthFactor = 0.5; 
 
 function setup() {
   size = Math.min(windowWidth, windowHeight);
@@ -41,6 +41,7 @@ function setup() {
     randomCircles.push(randomCircle);
   }
 
+
   patterns = [
     { type: 'duelCircle', x: 550, y: 180, radius: 30, delta: 10 },
     { type: 'duelCircle', x: 650, y: 300, radius: 15, delta: 5 },
@@ -60,10 +61,11 @@ function draw() {
   originalImage();
   pop();
 
-  if (centralCircleRadius > 100 || centralCircleRadius < 70) {
+  if (centralCircleRadius > 100 || centralCircleRadius < 30) {
     growthFactor *= -1;
   }
   centralCircleRadius += growthFactor;
+
 
   angle += 0.01;
 }
@@ -79,8 +81,10 @@ function drawDuelCircle(x, y, radius, delta) {
 function drawSpecialCircle(x, y, outerRadius, innerRadius) {
   fill(75, 156, 211);
   arc(x, y, 2 * outerRadius, 2 * outerRadius, 0, PI);
+
   fill(255, 215, 0);
   arc(x, y, 2 * outerRadius, 2 * outerRadius, PI, TWO_PI);
+
   fill(181, 101, 167);
   ellipse(x, y, 2 * innerRadius, 2 * innerRadius);
 }
@@ -93,7 +97,6 @@ function drawComplexCircle(x, y, outerRadius, middleRadius, innerRadius) {
   fill(119, 197, 147);
   ellipse(x, y, 2 * innerRadius, 2 * innerRadius);
 }
-
 function originalImage() {
   clear();
   background(3, 61, 94);
@@ -105,11 +108,6 @@ function originalImage() {
     fill(largeCircleColors[i % largeCircleColors.length]);
     ellipse(x, y, r, r);
   }
-
-  fill(0, 0, 255);
-  ellipse(x, y - 30, 30, 30);
-  fill(0, 255, 0);
-  ellipse(x, y + 30, 30, 30);
 
   for (let i = 0; i < randomCircles.length; i++) {
     let circle = randomCircles[i];
@@ -125,17 +123,22 @@ function originalImage() {
     let angleOffset = i * TWO_PI / patterns.length;
     let x = 512 + 300 * cos(angle + angleOffset);
     let y = 512 + 300 * sin(angle + angleOffset);
-    if (pattern.type === 'duelCircle') {
-      drawDuelCircle(x, y, pattern.radius, pattern.delta);
-    } else if (pattern.type === 'specialCircle') {
-      drawSpecialCircle(x, y, pattern.outerRadius, pattern.innerRadius);
-    } else if (pattern.type === 'complexCircle') {
-      drawComplexCircle(x, y, pattern.outerRadius, pattern.middleRadius, pattern.innerRadius);
-    } else if (pattern.type === 'moon') {
-      fill(255, 165, 0);
-      ellipse(x, y, pattern.moonRadius * 2, pattern.moonRadius * 2);
-      fill(3, 61, 94);
-      ellipse(x + pattern.offset, y, pattern.moonRadius * 1.9, pattern.moonRadius * 1.9);
+    switch (pattern.type) {
+      case 'duelCircle':
+        drawDuelCircle(x, y, pattern.radius, pattern.delta);
+        break;
+      case 'specialCircle':
+        drawSpecialCircle(x, y, pattern.outerRadius, pattern.innerRadius);
+        break;
+      case 'complexCircle':
+        drawComplexCircle(x, y, pattern.outerRadius, pattern.middleRadius, pattern.innerRadius);
+        break;
+      case 'moon':
+        fill(255, 165, 0);
+        ellipse(x, y, pattern.moonRadius * 2, pattern.moonRadius * 2);
+        fill(3, 61, 94);
+        ellipse(x + pattern.offset, y, pattern.moonRadius * 1.9, pattern.moonRadius * 1.9);
+        break;
     }
   }
 }
