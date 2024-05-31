@@ -85,7 +85,7 @@ function draw() {
 
   // Use frame count and sin function to achieve the zoom in and out effect
   frameIncrement += 0.01; // Control the frame increment
-  let expansionFactor = 0.7 + sin(frameIncrement*1.5 - 900) * 0.6; // Adjust the range and speed
+  let expansionFactor = 0.7 + sin(frameIncrement*2 - 900) * 0.6; // Adjust the range and speed
   let baseRadius = 300 * expansionFactor; // Adjust the radius of the central circle
 
   // Draw multiple concentric circles
